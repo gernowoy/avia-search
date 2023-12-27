@@ -1,0 +1,85 @@
+.flight-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.8rem;
+  
+  & span {
+    color: #16a4de;
+  }
+}
+
+.flight-route {
+  padding: 1.2rem;
+  border-bottom: 1px solid grey;
+}
+
+.flight-time {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  & div {
+    font-size: 2rem;
+
+    span {
+      font-size: 1.8rem;
+    }
+  }
+  & img {
+    width: 2rem;
+  }
+}
+
+.flight-change {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  text-align: center;
+  color: #ffb168;
+}
+
+.flight-change:before, 
+.flight-change:after {
+  content: '';
+  position: absolute;
+  top: 51%;
+  width: 30%;
+  height: 1px;
+  background-color: rgb(104, 103, 103);
+}
+.flight-change:before {
+  margin-left: -35%;
+
+}
+.flight-change:after {
+  margin-left: 5%;
+}
+
+.flight-btn {
+  color: white;
+  background-color: #f2b36f;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  padding: 1.4rem 0;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.flight-btn:hover {
+  background-color: #d59148;
+}
+.flight-btn:active {
+  background-color: #966531;
+}
+
+.flight-aircompany {
+  padding: 1rem;
+  font-size: 1.6rem;
+}
+
+.flight-breaker-line {
+  width: 100%;
+  height: 2px;
+  background-color: #0087c9;
+}

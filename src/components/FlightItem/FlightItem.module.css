@@ -1,0 +1,28 @@
+.flight-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.flight-header {
+  height: 4.3rem;
+  display: flex;
+  padding: 0 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0087c9;
+  color: #fff;
+  font-size: 1.15rem;
+
+  & img {
+    max-width: 10rem;
+    max-height: 90%;
+  }
+
+  & div {
+    text-align: end;
+  }
+
+  & .flight-price {
+    font-size: 2rem;
+  }
+}
