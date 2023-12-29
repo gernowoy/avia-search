@@ -1,4 +1,4 @@
-.flight-item {
+.flight-leg {
   display: flex;
   flex-direction: column;
 }
@@ -25,4 +25,23 @@
   & .flight-price {
     font-size: 2rem;
   }
+}
+
+.flight-btn {
+  color: white;
+  background-color: #f2b36f;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  padding: 1.4rem 0;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.flight-btn:hover {
+  background-color: #d59148;
+}
+.flight-btn:active {
+  background-color: #966531;
 }

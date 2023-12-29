@@ -1,4 +1,4 @@
-.flight-info {
+.flight-segment {
   display: flex;
   flex-direction: column;
   font-size: 1.8rem;
@@ -11,6 +11,8 @@
 .flight-route {
   padding: 1.2rem;
   border-bottom: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
 }
 
 .flight-time {
@@ -29,7 +31,7 @@
   }
 }
 
-.flight-change {
+.flight-layover {
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -37,8 +39,8 @@
   color: #ffb168;
 }
 
-.flight-change:before, 
-.flight-change:after {
+.flight-layover:before, 
+.flight-layover:after {
   content: '';
   position: absolute;
   top: 51%;
@@ -46,34 +48,21 @@
   height: 1px;
   background-color: rgb(104, 103, 103);
 }
-.flight-change:before {
+.flight-layover:before {
   margin-left: -35%;
 
 }
-.flight-change:after {
+.flight-layover:after {
   margin-left: 5%;
 }
 
-.flight-btn {
-  color: white;
-  background-color: #f2b36f;
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 1.5rem;
-  padding: 1.4rem 0;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
+.flight-layover-line {
+  width: 100%;
+  height: 1px;
+  background-color: rgb(104, 103, 103);
 }
 
-.flight-btn:hover {
-  background-color: #d59148;
-}
-.flight-btn:active {
-  background-color: #966531;
-}
-
-.flight-aircompany {
+.flight-airline {
   padding: 1rem;
   font-size: 1.6rem;
 }

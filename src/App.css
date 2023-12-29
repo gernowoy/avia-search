@@ -18,7 +18,7 @@ body {
 }
 
 #root {
-  max-width: 96rem;
+  max-width: 128rem;
   height: 100vh;
   margin: 0 auto;
   padding: 2rem 4.4rem 0 2rem;
@@ -41,3 +41,12 @@ body {
   gap: 5rem;
 }
 
+.btn {
+  padding: 1rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.mb {
+  margin-bottom: 2rem;
+}
