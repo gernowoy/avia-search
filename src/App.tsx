@@ -6,31 +6,63 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
+  // ----------- DATA -----------
+
   const mockData: Flights = dbData as Flights;
   const [filteredData, setFilteredData] = useState(mockData.result.flights);
 
-  const [renderFlights, setRenderFlights] = useState([filteredData[0]]);
+  // ----------- SORT -----------
+  const [sortBy, setSortBy] = useState('ascending');
+  const initialSortedData = sortData(filteredData, sortBy)
+  const [sortedData, setSortedData] = useState(initialSortedData);
+
+  function sortData(flights, sortValue) {
+    return [...flights].sort((a, b) => {
+      if (sortValue === 'ascending') {
+        return (
+          Number(a.flight.price.total.amount) -
+          Number(b.flight.price.total.amount)
+        );
+      } else if (sortValue === 'descending') {
+        return (
+          Number(b.flight.price.total.amount) -
+          Number(a.flight.price.total.amount)
+        );
+      } else if (sortValue === 'time') {
+        return (
+          Number(a.flight.legs[0].duration + a.flight.legs[1].duration) -
+          Number(b.flight.legs[0].duration + b.flight.legs[1].duration)
+        );
+      }
+    });
+  }
+
+  const handleSortChange = (sortMethod) => {
+    setSortBy(sortMethod);
+    const newData = sortData(filteredData, sortMethod);
+    setSortedData(newData);
+    setRenderFlights([newData[0]]);
+  };
+
+
+  // ----------- FLIGHTS -----------
+
+  const [renderFlights, setRenderFlights] = useState([sortedData[0]]);
 
   const handleAddFlight = () => {
     setRenderFlights(prevFlights => {
       const nextIndex = prevFlights.length;
-      if (nextIndex < filteredData.length) {
-        return [...prevFlights, filteredData[nextIndex]];
+      if (nextIndex < sortedData.length) {
+        return [...prevFlights, sortedData[nextIndex]];
       }
 
       return prevFlights;
     });
   };
 
-  // ----------- Input Filter -----------
-
-  // const app = mockData.result.flights[0].flight.carrier.caption;
-
-  // ----------- Sort -----------
-
   return (
     <>
-      <SideBar />
+      <SideBar onSortChange={handleSortChange} sortBy={sortBy} />
       <main className="main">
         <ul className="flight-items">
           {renderFlights ? (
@@ -48,8 +80,7 @@ function App() {
             <div>ПЕРЕЛЕТЫ НЕ НАЙДЕНЫ</div>
           )}
 
-          {renderFlights.map((renderFlight, i) => {
-            if (i > 0) {
+          {renderFlights.slice(1).map((renderFlight) => {
               return (
                 <>
                   <FlightLeg
@@ -62,10 +93,9 @@ function App() {
                   />
                 </>
               );
-            }
           })}
 
-          {renderFlights.length !== filteredData.length && (
+          {renderFlights.length !== sortedData.length && (
             <button className="btn mb" onClick={handleAddFlight}>
               Показать еще
             </button>
@@ -77,3 +107,6 @@ function App() {
 }
 
 export default App;
+
+<ul className="flight-items">
+</ul>
