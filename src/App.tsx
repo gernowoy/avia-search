@@ -1,14 +1,14 @@
 import dbData from './db/flights.json';
 import SideBar from './components/SideBar/SideBar';
 import FlightLeg from './components/FlightLeg/FlightLeg';
-import { Flights } from './types/types';
+// import { Flights } from './types/types';
 import './App.css';
 import { useEffect, useState } from 'react';
 
 function App() {
   // ----------- DATA -----------
 
-  const mockData: Flights = dbData as Flights;
+  const mockData = dbData;
   const [filteredData, setFilteredData] = useState(mockData.result.flights);
 
   // ----------- SORT -----------
