@@ -4,8 +4,10 @@ const SideBar = ({
   onSortChange,
   sortBy,
   layovers,
-  handleFilterChange,
-  selectedFilters,
+  handleLayoverFilter,
+  layoverFilters,
+  priceFilters,
+  handlePriceFilter
 }) => {
   // --------- SORT -----------
   const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +56,8 @@ const SideBar = ({
             <input
               type="checkbox"
               value={layover}
-              onChange={() => handleFilterChange(layover)}
-              checked={selectedFilters.includes(layover)}
+              onChange={() => handleLayoverFilter(layover)}
+              checked={layoverFilters.includes(layover)}
             />
             <span>
               &nbsp;- {layover !== 0 ? `${layover} пересадка` : 'без пересадок'}
@@ -67,11 +69,21 @@ const SideBar = ({
         <p>Цена</p>
         <label>
           <span>От&nbsp;</span>
-          <input type="number" name="min-price" min={0} />
+          <input
+            type="number"
+            min={0}
+            value={priceFilters[0]}
+            onChange={event => handlePriceFilter(event, 'min')}
+          />
         </label>
         <label>
           <span>До&nbsp;</span>
-          <input type="number" name="max-price" min={0} />
+          <input
+            type="number"
+            min={0}
+            value={priceFilters[1]}
+            onChange={event => handlePriceFilter(event, 'max')}
+          />
         </label>
       </form>
       <form className={classes['sidebar-companies']}>

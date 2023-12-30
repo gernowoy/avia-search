@@ -44,7 +44,17 @@ function App() {
     setRenderFlights([newData[0]]);
   };
 
-  // ----------- FILTER CHECKBOX -----------
+  useEffect(() => {
+    const newData = sortData(filteredData, sortBy);
+    setSortedData(newData);
+    if (newData[0]) {
+      setRenderFlights([newData[0]]);
+    } else {
+      setRenderFlights([]);
+    }
+  }, [filteredData, sortBy]);
+
+  // ----------- FILTER CHECKBOX (LAYOVERS)-----------
 
   const layovers = [
     ...new Set(
@@ -54,10 +64,10 @@ function App() {
     ),
   ].sort((a, b) => b - a);
 
-  const [selectedFilters, setSelectedFilters] = useState(layovers);
+  const [layoverFilters, setLayoverFilters] = useState(layovers);
 
-  const handleFilterChange = e => {
-    setSelectedFilters(prevFilters => {
+  const handleLayoverFilter = e => {
+    setLayoverFilters(prevFilters => {
       if (prevFilters.includes(e)) {
         return prevFilters.filter(filter => filter !== e);
       } else {
@@ -66,33 +76,39 @@ function App() {
     });
   };
 
-  useEffect(() => {
-    console.log(selectedFilters, 'массив фильтров');
-    console.log(mockData.result.flights.length, 'всего элементов');
+  // ----------- FILTER PRICE-----------
 
+  const initialPrices = [0, 100000];
+  const [priceFilters, setPriceFilters] = useState(initialPrices);
+
+  const handlePriceFilter = (event, inputType) => {
+    const newValue = +event.target.value;
+    setPriceFilters(prevFilters => {
+      const newFilters = [...prevFilters];
+      if (inputType === 'min') {
+        newFilters[0] = newValue;
+      } else if (inputType === 'max') {
+        newFilters[1] = newValue;
+      }
+      return newFilters;
+    });
+  };
+
+  useEffect(() => {
     setFilteredData(
       mockData.result.flights.filter(flight => {
-        return (
-          selectedFilters.includes(flight.flight.legs[0].segments.length - 1) &&
-          selectedFilters.includes(flight.flight.legs[1].segments.length - 1)
-        );
+        const layoverCondition =
+          layoverFilters.includes(flight.flight.legs[0].segments.length - 1) &&
+          layoverFilters.includes(flight.flight.legs[1].segments.length - 1);
+
+        const priceCondition =
+          +flight.flight.price.total.amount >= priceFilters[0] &&
+          +flight.flight.price.total.amount <= priceFilters[1];
+
+        return layoverCondition && priceCondition;
       }),
     );
-  }, [selectedFilters]);
-
-  useEffect(() => {
-    console.log(filteredData.length, 'дата после изменений');
-
-    const newData = sortData(filteredData, sortBy);
-    setSortedData(newData);
-    console.log(newData[0]);
-
-    if (newData[0]) {
-      setRenderFlights([newData[0]]);
-    } else {
-      setRenderFlights([]);
-    }
-  }, [filteredData, sortBy]);
+  }, [layoverFilters, priceFilters]);
 
   // ----------- FLIGHTS -----------
 
@@ -104,7 +120,6 @@ function App() {
       if (nextIndex < sortedData.length) {
         return [...prevFlights, sortedData[nextIndex]];
       }
-
       return prevFlights;
     });
   };
@@ -115,8 +130,10 @@ function App() {
         onSortChange={handleSortChange}
         sortBy={sortBy}
         layovers={layovers}
-        handleFilterChange={handleFilterChange}
-        selectedFilters={selectedFilters}
+        handleLayoverFilter={handleLayoverFilter}
+        layoverFilters={layoverFilters}
+        priceFilters={priceFilters}
+        handlePriceFilter={handlePriceFilter}
       />
 
       <main className="main">

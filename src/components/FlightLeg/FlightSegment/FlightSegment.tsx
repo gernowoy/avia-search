@@ -36,9 +36,7 @@ const FlightSegment = ({ segments }) => {
             {departureCity}, {departureAirport}{' '}
             <span>({departureAirportUid})</span>
           </p>
-          <p> → 
-          {segment.flightNumber}
-             </p>
+          <p> → </p>
           <p>
             {arrivalCity}, {arrivalAirport} <span>({arrivalAirportUid})</span>
           </p>
