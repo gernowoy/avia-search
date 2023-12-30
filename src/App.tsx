@@ -94,6 +94,28 @@ function App() {
     });
   };
 
+  // ----------- FILTER AIRLINES-----------
+
+  const initialAirlines = [
+    ...new Set(
+      mockData.result.flights.map(flight => {
+        return flight.flight.legs[0].segments[0].airline.caption;
+      }),
+    ),
+  ];
+
+  const [selectedAirlines, setSelectedAirlines] = useState(initialAirlines);
+
+  const handleAirlineFilter = (isChecked, airline) => {
+    setSelectedAirlines(prevFilters => {
+      if (isChecked) {
+        return [...prevFilters, airline];
+      } else {
+        return prevFilters.filter(filter => filter !== airline);
+      }
+    });
+  };
+
   useEffect(() => {
     setFilteredData(
       mockData.result.flights.filter(flight => {
@@ -102,13 +124,17 @@ function App() {
           layoverFilters.includes(flight.flight.legs[1].segments.length - 1);
 
         const priceCondition =
-          +flight.flight.price.total.amount >= priceFilters[0] &&
-          +flight.flight.price.total.amount <= priceFilters[1];
+          Number(flight.flight.price.total.amount) >= priceFilters[0] &&
+          Number(flight.flight.price.total.amount) <= priceFilters[1];
 
-        return layoverCondition && priceCondition;
+        const airlineCondition = selectedAirlines.includes(
+          flight.flight.legs[0].segments[0].airline.caption,
+        );
+
+        return layoverCondition && priceCondition && airlineCondition;
       }),
     );
-  }, [layoverFilters, priceFilters]);
+  }, [layoverFilters, priceFilters, selectedAirlines]);
 
   // ----------- FLIGHTS -----------
 
@@ -134,6 +160,9 @@ function App() {
         layoverFilters={layoverFilters}
         priceFilters={priceFilters}
         handlePriceFilter={handlePriceFilter}
+        initialAirlines={initialAirlines}
+        selectedAirlines={selectedAirlines}
+        handleAirlineFilter={handleAirlineFilter}
       />
 
       <main className="main">

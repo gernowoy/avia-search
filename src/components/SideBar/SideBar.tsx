@@ -7,7 +7,10 @@ const SideBar = ({
   handleLayoverFilter,
   layoverFilters,
   priceFilters,
-  handlePriceFilter
+  handlePriceFilter,
+  initialAirlines,
+  selectedAirlines,
+  handleAirlineFilter,
 }) => {
   // --------- SORT -----------
   const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,10 +91,16 @@ const SideBar = ({
       </form>
       <form className={classes['sidebar-companies']}>
         <p>Авиакомпании</p>
-        <label>
-          <input type="checkbox" name="" min={0} />
-          <span>&nbsp; - LOT Polish Airlines от 21049p.</span>
-        </label>
+        {initialAirlines.map((airline, index) => (
+          <label key={index}>
+            <input
+              type="checkbox"
+              checked={selectedAirlines.includes(airline)}
+              onChange={e => handleAirlineFilter(e.target.checked, airline)}
+            />
+            <span>&nbsp; - {airline.length > 15 ? `${airline.slice(0, 15)}...` : airline}.</span>
+          </label>
+        ))}
       </form>
     </aside>
   );
