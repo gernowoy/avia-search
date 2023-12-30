@@ -1,6 +1,12 @@
 import classes from './SideBar.module.css';
 
-const SideBar = ({ onSortChange, sortBy }) => {
+const SideBar = ({
+  onSortChange,
+  sortBy,
+  layovers,
+  handleFilterChange,
+  selectedFilters,
+}) => {
   // --------- SORT -----------
   const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSortChange(e.target.value);
@@ -43,14 +49,19 @@ const SideBar = ({ onSortChange, sortBy }) => {
       </form>
       <form className={classes['sidebar-filter']}>
         <p>Фильтровать</p>
-        <label>
-          <input type="checkbox" name="filter" />
-          <span>&nbsp;- 1 пересадка</span>
-        </label>
-        <label>
-          <input type="checkbox" name="filter" />
-          <span>&nbsp;- без пересадок</span>
-        </label>
+        {layovers.map(layover => (
+          <label key={layover}>
+            <input
+              type="checkbox"
+              value={layover}
+              onChange={() => handleFilterChange(layover)}
+              checked={selectedFilters.includes(layover)}
+            />
+            <span>
+              &nbsp;- {layover !== 0 ? `${layover} пересадка` : 'без пересадок'}
+            </span>
+          </label>
+        ))}
       </form>
       <form className={classes['sidebar-price']}>
         <p>Цена</p>
